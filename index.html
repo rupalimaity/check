@@ -14,10 +14,21 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: radial-gradient(circle at 10% 10%, rgba(255,107,129,0.06), transparent 10%), var(--bg);
+  color: #e8eef8;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* removed flex centering */
+  padding:30px;
+  transition: background var(--transition), color var(--transition);
+
+      /* margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background: radial-gradient(circle at 10% 10%, rgba(255,107,129,0.06), transparent 10%), var(--bg);
       color: #e8eef8; min-height:100vh; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      display:flex; align-items:center; justify-content:center; padding:30px; transition: background var(--transition), color var(--transition);
+      display:flex; align-items:center; justify-content:center; padding:30px; transition: background var(--transition), color var(--transition); */
     }
 
     .site{width:100%; max-width:1100px; border-radius:18px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); display:grid; grid-template-columns:1fr 420px; gap:24px; padding:28px; align-items:stretch;}
@@ -149,8 +160,8 @@
   <div class="site" id="app" data-theme="dark">
     <div class="hero" id="main-page">
       <div>
-        <h1>Happy Birthday!</h1>
-        <p class="lead">Wishing you a day filled with love, cake, and tiny floating hearts. ❤️</p>
+        <h1>Happy Birthday shiva!</h1>
+        <p class="lead">Wishing you a day filled with cake,chocolate and lot of love and hearts. ❤️</p>
         <div class="controls">
           <div class="buttons">
             <button class="btn primary" id="open-letter">Open Letter</button>
@@ -163,7 +174,7 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:6px; color:var(--muted)">Tip: Try the Surprise button, switch theme, or share this page. Press <strong>Esc</strong> to close modals.</div>
+      <div style="margin-top:6px; color:var(--muted)">Try the Surprise button ,Press <strong>Esc</strong> to close modals.</div>
     </div>
 
     <div class="panel">
@@ -216,7 +227,7 @@
       </div>
     </div>
 
-    <footer>Made with ♥ — edit text or images easily in the HTML file.</footer>
+    <footer>Made with ♥ love</footer>
   </div>
 
   <!-- modal letter -->
@@ -224,8 +235,8 @@
     <div class="letter" role="dialog" aria-modal="true" aria-labelledby="letter-title">
       <h2 id="letter-title">Dear Friend,</h2>
       <div class="content" id="letter-content" tabindex="0">
-        <p>Wishing you the happiest of birthdays. May your day be filled with laughter, good company and sweet surprises. Enjoy every bite of cake and all the warm wishes coming your way. With love,</p>
-        <p><strong>- Someone who adores you</strong></p>
+        <p>Wishing you the happiest of birthday.i know i am not there right know but hope ham jaldi milenge miss you and i love you bohot sara .</p>
+        <p><strong>- Someone who adores you lots of LOVE</strong></p>
       </div>
       <div class="actions">
         <button class="btn" id="print-letter">Print</button>
@@ -241,7 +252,7 @@
       <div class="caption" id="lightbox-caption"></div>
       <div style="margin-top:8px">
         <button class="btn" id="fav-photo">❤ Favorite</button>
-        <button class="btn" id="download-photo">⬇ Download</button>
+        <!-- <button class="btn" id="download-photo">⬇ Download</button> -->
         <button class="btn" id="close-lightbox">Close</button>
       </div>
     </div>
