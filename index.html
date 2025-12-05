@@ -331,12 +331,12 @@
 
     // Photos data
     const photos = [
-      {src:'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=1000&q=80', caption:'Cake and candles'},
-      {src:'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=1000&q=80', caption:'Birthday balloons'},
-      {src:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1000&q=80', caption:'Friends celebrating'},
-      {src:'https://images.unsplash.com/photo-1534790566855-4cb788d389ec?w=1000&q=80', caption:'Wrapped gifts'},
-      {src:'https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=1000&q=80', caption:'Party lights'},
-      {src:'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=1000&q=80', caption:'Sweet moments'}
+      {src:'gallery/image1.jpg', caption:'Cake and candles'},
+      {src:'gallery/image2.jpg', caption:'Birthday balloons'},
+      {src:'gallery/image3.jpg', caption:'Friends celebrating'},
+      {src:'gallery/image4.jpg', caption:'Wrapped gifts'},
+      {src:'gallery/image5.jpg', caption:'Party lights'},
+      {src:'gallery/image6.jpg', caption:'Sweet moments'}
     ];
 
     const grid = document.getElementById('gallery-grid');
@@ -395,9 +395,9 @@
     });
 
     // Download current photo
-    document.getElementById('download-photo').addEventListener('click', ()=>{
-      const a = document.createElement('a'); a.href = photos[currentIdx].src; a.download = 'photo.jpg'; document.body.appendChild(a); a.click(); a.remove();
-    });
+    // document.getElementById('download-photo').addEventListener('click', ()=>{
+    //   const a = document.createElement('a'); a.href = photos[currentIdx].src; a.download = 'photo.jpg'; document.body.appendChild(a); a.click(); a.remove();
+    // });
 
     // Slideshow
     let slideInterval = null;
@@ -408,12 +408,84 @@
     document.getElementById('prev-slide').addEventListener('click', ()=>{ currentIdx = (currentIdx-1+photos.length)%photos.length; openLightbox(currentIdx); });
 
     // Confetti burst + short tone
-    function burstConfetti(){ confettiBox.innerHTML=''; for(let i=0;i<60;i++){ const p = document.createElement('div'); p.style.position='absolute'; p.style.left=Math.random()*100 + '%'; p.style.top = Math.random()*20 + '%'; p.style.width = '10px'; p.style.height = '16px'; p.style.background = ['#ff6b81','#ffd166','#7fe3d0','#9ab7ff','#f4c2c2'][Math.floor(Math.random()*5)]; p.style.transform = `translateY(-30vh) rotate(${Math.random()*360}deg)`; p.style.opacity=1; p.style.borderRadius='2px'; p.style.animation = 'conf 1800ms linear forwards'; p.style.zIndex=80; confettiBox.appendChild(p); } confettiBox.style.display='block'; setTimeout(()=> confettiBox.style.display='none', 1900); }
-    surpriseBtn.addEventListener('click', ()=>{
-      burstConfetti();
-      try{ const ctx = new (window.AudioContext||window.webkitAudioContext)(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.05; o.connect(g); g.connect(ctx.destination); o.start(); setTimeout(()=>{ o.frequency.value=660; },150); setTimeout(()=>{ o.stop(); ctx.close(); },650);}catch(e){}
-      const note=document.createElement('div'); note.style.position='fixed'; note.style.left='50%'; note.style.top='12%'; note.style.transform='translateX(-50%)'; note.style.padding='10px 16px'; note.style.borderRadius='10px'; note.style.background='#111'; note.style.border='1px solid rgba(255,255,255,0.06)'; note.style.boxShadow='0 8px 30px rgba(0,0,0,0.6)'; note.textContent='Surprise! 🎉'; note.style.opacity='0'; note.style.transition='opacity 200ms'; document.body.appendChild(note); requestAnimationFrame(()=> note.style.opacity='1'); setTimeout(()=>{ note.style.opacity='0'; setTimeout(()=> note.remove(),300) },1600);
-    });
+    // Confetti burst + short tone (safer)
+function burstConfetti() {
+  if (!confettiBox) return;
+
+  confettiBox.innerHTML = '';
+  for (let i = 0; i < 80; i++) {
+    const p = document.createElement('div');
+    p.style.position = 'absolute';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 20 + '%';
+    p.style.width = '10px';
+    p.style.height = '16px';
+    p.style.background = ['#ff6b81', '#ffd166', '#7fe3d0', '#9ab7ff', '#f4c2c2'][Math.floor(Math.random() * 5)];
+    p.style.transform = `translateY(-30vh) rotate(${Math.random() * 360}deg)`;
+    p.style.opacity = 1;
+    p.style.borderRadius = '2px';
+    p.style.animation = 'conf 1800ms linear forwards';
+    p.style.zIndex = 80;
+    confettiBox.appendChild(p);
+  }
+  confettiBox.style.display = 'block';
+  setTimeout(() => confettiBox.style.display = 'none', 1900);
+}
+
+if (surpriseBtn) {
+  surpriseBtn.addEventListener('click', () => {
+    // just to be 100% sure click is working
+    // (you can remove this alert later)
+    alert('Surprise! 🎉');
+
+    burstConfetti();
+
+    // tiny sound (in try/catch so it never breaks)
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 880;
+      g.gain.value = 0.05;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      setTimeout(() => { o.frequency.value = 660; }, 150);
+      setTimeout(() => { o.stop(); ctx.close(); }, 650);
+    } catch (e) {}
+
+    // popup note
+    const note = document.createElement('div');
+    note.style.position = 'fixed';
+    note.style.left = '50%';
+    note.style.top = '15%';
+    note.style.transform = 'translateX(-50%)';
+    note.style.padding = '10px 16px';
+    note.style.borderRadius = '10px';
+    note.style.background = '#111';
+    note.style.border = '1px solid rgba(255,255,255,0.06)';
+    note.style.boxShadow = '0 8px 30px rgba(0,0,0,0.6)';
+    note.style.color = '#fff';
+    note.textContent = 'Surprise! 🎉';
+    note.style.opacity = '0';
+    note.style.transition = 'opacity 200ms';
+    note.style.zIndex = '200';
+    document.body.appendChild(note);
+    requestAnimationFrame(() => note.style.opacity = '1');
+    setTimeout(() => {
+      note.style.opacity = '0';
+      setTimeout(() => note.remove(), 300);
+    }, 1600);
+  });
+}
+
+    // function burstConfetti(){ confettiBox.innerHTML=''; for(let i=0;i<60;i++){ const p = document.createElement('div'); p.style.position='absolute'; p.style.left=Math.random()*100 + '%'; p.style.top = Math.random()*20 + '%'; p.style.width = '10px'; p.style.height = '16px'; p.style.background = ['#ff6b81','#ffd166','#7fe3d0','#9ab7ff','#f4c2c2'][Math.floor(Math.random()*5)]; p.style.transform = `translateY(-30vh) rotate(${Math.random()*360}deg)`; p.style.opacity=1; p.style.borderRadius='2px'; p.style.animation = 'conf 1800ms linear forwards'; p.style.zIndex=80; confettiBox.appendChild(p); } confettiBox.style.display='block'; setTimeout(()=> confettiBox.style.display='none', 1900); }
+    // surpriseBtn.addEventListener('click', ()=>{
+    //   burstConfetti();
+    //   try{ const ctx = new (window.AudioContext||window.webkitAudioContext)(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.type='sine'; o.frequency.value=880; g.gain.value=0.05; o.connect(g); g.connect(ctx.destination); o.start(); setTimeout(()=>{ o.frequency.value=660; },150); setTimeout(()=>{ o.stop(); ctx.close(); },650);}catch(e){}
+    //   const note=document.createElement('div'); note.style.position='fixed'; note.style.left='50%'; note.style.top='12%'; note.style.transform='translateX(-50%)'; note.style.padding='10px 16px'; note.style.borderRadius='10px'; note.style.background='#111'; note.style.border='1px solid rgba(255,255,255,0.06)'; note.style.boxShadow='0 8px 30px rgba(0,0,0,0.6)'; note.textContent='Surprise! 🎉'; note.style.opacity='0'; note.style.transition='opacity 200ms'; document.body.appendChild(note); requestAnimationFrame(()=> note.style.opacity='1'); setTimeout(()=>{ note.style.opacity='0'; setTimeout(()=> note.remove(),300) },1600);
+    // });
 
     // tiny toast
     function showToast(msg){ toast.textContent=msg; toast.classList.add('show'); setTimeout(()=> toast.classList.remove('show'),2000); }
@@ -433,7 +505,29 @@
     function downloadPage(){ const a = document.createElement('a'); const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'}); a.href=URL.createObjectURL(blob); a.download='birthday_wish_site.html'; document.body.appendChild(a); a.click(); a.remove(); showToast('Downloaded page'); }
 
     // focus-trap minimal for modal
-    modal.addEventListener('keydown', (e)=>{ if(e.key==='Tab'){ const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'); if(focusable.length===0) return; const first=focusable[0], last=focusable[focusable.length-1]; if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); } } });
+    // focus-trap minimal for modal (safe)
+if (modal) {
+  modal.addEventListener('keydown', (e)=>{ 
+    if(e.key==='Tab'){
+      const focusable = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if(focusable.length===0) return;
+      const first = focusable[0];
+      const last  = focusable[focusable.length-1];
+
+      if(e.shiftKey && document.activeElement === first){
+        e.preventDefault();
+        last.focus();
+      } else if(!e.shiftKey && document.activeElement === last){
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+}
+
+    // modal.addEventListener('keydown', (e)=>{ if(e.key==='Tab'){ const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'); if(focusable.length===0) return; const first=focusable[0], last=focusable[focusable.length-1]; if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); } } });
 
     // provide console helpers
     window._birthday = { downloadPage, openLightbox, photos };
